@@ -1,0 +1,2 @@
+time=2026-10-31T15:11:56.077+08:00 level=INFO source=app_windows.go:282 msg="starting Ollama" app=C:\Users\44675\AppData\Local\Programs\Ollama version=0.21.0 OS=Windows/10.0.26300
+time=2026-10-31T15:11:56.090+08:00 level=ERROR source=app.go:201 msg="failed to find available port" error="listen tcp 127.0.0.1:0: socket: The requested service provider could not be loaded or initialized."

@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/* Toast & Modal 动画 */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-12px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-8px) scale(0.95); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.92) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 品牌色 CSS 变量（暖橙主题, 与用户端配色一致, 无紫无渐变） */
+@theme {
+  --color-primary: #f07c2a;
+  --color-primary-light: #ff9a4d;
+  --color-primary-dark: #d96a1f;
+  --color-primary-bg: #fff3e8;
+  --color-primary-border: #f7c59f;
+
+  --color-danger: #e8746b;
+  --color-danger-light: #f1a8a1;
+  --color-danger-bg: #fdf0ef;
+
+  --color-success: #26a69a;
+  --color-warning: #faad14;
+  --color-info: #3b82f6;
+
+  --color-text-dark: #1f2d3d;
+  --color-text-medium: #909399;
+  --color-text-light: #A0AEC0;
+  --color-text-placeholder: #9CA3AF;
+
+  --color-bg-page: #f7f8fa;
+  --color-bg-card: #ffffff;
+  --color-bg-light: #f5f7fa;
+  --color-bg-hover: #f3f4f6;
+
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-border-focus: #f07c2a;
+
+  /* 用户端暖橙语义色别名（与上方 primary/语义色同源） */
+  --color-warm-primary: #f07c2a;      /* 主色: 按钮/强调文字 */
+  --color-warm-accent: #ff9a4d;       /* 高亮/图标 */
+  --color-warm-deep: #d96a1f;         /* 主色深: hover 加深 */
+  --color-warm-bg: #fff3e8;           /* 浅橙底: 选中态/标签底 */
+  --color-warm-border: #f0e4d8;       /* 暖调边框 */
+  --color-warm-page: #f7f8fa;         /* 页面底 */
+  --color-warm-text: #1f2d3d;         /* 主文字 */
+  --color-warm-sub: #909399;          /* 次要文字 */
+  --color-warm-success: #26a69a;      /* 成功 */
+  --color-warm-warning: #faad14;      /* 警告 */
+  --color-warm-danger: #e8746b;       /* 危险/错误 */
+}
+
+/* 全局基础样式 */
+@layer base {
+  /* Tailwind preflight 会重置 button 的 cursor，这里全局恢复 */
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html, body, #app {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--color-bg-page);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    color: #303133;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  /* 自定义复选框/单选框（替代原生样式与 accent-color） */
+  input[type="checkbox"],
+  input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    border: 1.5px solid #d1d5db;
+    background-color: #ffffff;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+  }
+  input[type="checkbox"] {
+    border-radius: 4px;
+  }
+  input[type="radio"] {
+    border-radius: 9999px;
+  }
+  input[type="checkbox"]:hover:not(:disabled),
+  input[type="radio"]:hover:not(:disabled) {
+    border-color: var(--color-primary);
+  }
+  /* 禁用态: 置灰 + 禁用光标(明确不可勾选) */
+  input[type="checkbox"]:disabled,
+  input[type="radio"]:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  input[type="checkbox"]:focus-visible,
+  input[type="radio"]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(240, 124, 42, 0.2);
+  }
+  input[type="checkbox"]:checked {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.5 8.5l3 3 6-6' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: center;
+  }
+  input[type="checkbox"]:indeterminate {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M4 8h8' stroke='white' stroke-width='2' stroke-linecap='round'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: center;
+  }
+  input[type="radio"]:checked {
+    border-color: var(--color-primary);
+    background-image: radial-gradient(circle, var(--color-primary) 0 42%, transparent 46%);
+  }
+
+  /* 自定义滚动条 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(144, 147, 153, 0.35);
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(144, 147, 153, 0.6);
+  }
+}
+
+/* 通用工具类 */
+@layer components {
+  .app-container {
+    padding: 20px;
+  }
+  .mb8 {
+    margin-bottom: 8px;
+  }
+  /* 用户端内联 SVG 图标容器(v-html 注入 icons.js 中的 svg) */
+  .u-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    line-height: 0;
+  }
+  .u-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}

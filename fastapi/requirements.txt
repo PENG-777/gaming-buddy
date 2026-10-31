@@ -1,0 +1,15 @@
+fastapi==0.143.3
+uvicorn[standard]==0.54.0
+sqlalchemy==2.1.4
+pymysql==1.2.3
+cryptography==50.0.2
+PyJWT==2.15.1
+python-multipart==0.0.32
+httpx==0.28.1
+pydantic==2.14.1
+pydantic-settings==2.16.0
+langchain==1.4.6
+langgraph==1.2.16
+langgraph-supervisor==0.0.31
+langchain-deepseek==1.1.1
+sqlparse==0.6.0
