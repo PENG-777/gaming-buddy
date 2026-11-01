@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     # 上传文件基础路径
     profile: str  # 上传文件根目录(头像/通用上传都存放于此)
 
-    deepseek_api_key: str # API密钥
+    deepseek_api_key: str  # API 密钥(只从 .env 读取, 切勿写入代码或提交仓库)
     deepseek_base_url: str # API地址
     deepseek_model: str # 模型名称
 
